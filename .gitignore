@@ -1,4 +1,7 @@
+#mac
 .DS_Store
+#arduino
+.build
 # Compiled Object files
 *.slo
 *.lo
