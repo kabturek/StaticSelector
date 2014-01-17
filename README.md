@@ -1,2 +1,3 @@
-Selector
-========
+StaticSelector
+==============
+
