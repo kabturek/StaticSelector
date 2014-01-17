@@ -41,7 +41,15 @@ int buttonState = 0;
 
 // DAC is connected to the 1st analog input(0)
 using namespace arduino::libraries;
-Selector input_selector;
+Input pre_inputs [] = {
+  Input(2, NULL, "AUX"),
+  Input(3, NULL, "PHONO"),
+  Input(7, 0, "USB"),
+  Input(7, 1, "Raspberry Pi"),
+  Input(7, 6, "CD Player"),
+  Input(7, 6, "TV"),
+};
+Selector input_selector(pre_inputs, 0, 0, 3);
 
 void setup() {
   pinMode(lcd_backlight, OUTPUT);
@@ -64,32 +72,21 @@ void loop() {
   lcd.print(millis()/1000);
 
   lcd.setCursor(0, 2);
-  /*lcd.print(input_selector.selected_input);*/
+  lcd.print(input_selector.active_input);
 
-  /*buttonState = digitalRead(buttonPin);*/
+  buttonState = digitalRead(buttonPin);
 
-  /*// check if the pushbutton is pressed.*/
-  /*// if it is, the buttonState is HIGH:*/
-  /*if (buttonState == HIGH) {*/
-    /*int next_input = analog_selector.selected_input + 1;*/
-    /*if(next_input == 4){*/
-      /*next_input = 0;*/
-    /*}*/
-    /*analog_selector.select(next_input);*/
-    /*delay(500);*/
-  /*}*/
-  /*lcd.setCursor(0, 3);*/
-  /*int number = analog_selector.selected_input;*/
-  /*lcd.print(number);*/
-  /*lcd.print(" ");*/
-  /*number = number % 4;*/
-  /*lcd.print(number);*/
-  /*lcd.print(" ");*/
-  /*number = number << 1;*/
-  /*lcd.print(number);*/
-  /*lcd.print(" ");*/
-  /*number = number + 1;*/
-  /*lcd.print(number);*/
-  /*lcd.print(" ");*/
+  // check if the pushbutton is pressed.
+  // if it is, the buttonState is HIGH:
+  if (buttonState == HIGH) {
+    int next_input = input_selector.active_input + 1;
+    if(next_input == 4){
+      next_input = 0;
+    }
+    input_selector.select_input(next_input);
+    delay(500);
+  }
+  lcd.setCursor(0, 3);
+  int number = input_selector.active_input;;
 }
 

@@ -18,7 +18,7 @@ namespace arduino{
 
     class Selector {
       public:
-        Selector(uint8_t active_input = 0, uint8_t active_output = 0, uint8_t dac_pin = 3);
+        Selector(Input inputs[], uint8_t active_input = 0, uint8_t active_output = 0, uint8_t dac_pin = 3);
         void setup();
         uint8_t select_next_input();
         uint8_t select_prev_input();
@@ -26,10 +26,10 @@ namespace arduino{
         void select_output(uint8_t output_number);
         void mute();
         Input * get_active_input();
+        uint8_t active_input;
       private:
         Input inputs[];
         uint8_t dac_enable_pin;
-        uint8_t active_input;
         uint8_t active_output;
         AnalogSelector analog_selector;
         DigitalSelector digital_selector;
