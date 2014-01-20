@@ -7,7 +7,8 @@
 
 namespace arduino{
   namespace libraries{
-    Selector::Selector(Input inputs[], uint8_t act_input, uint8_t act_output, uint8_t dac_pin): active_input(act_input), active_output(act_output), dac_enable_pin(dac_pin){
+    Selector::Selector(Input new_inputs[], uint8_t act_input, uint8_t act_output, uint8_t dac_pin): active_input(act_input), active_output(act_output), dac_enable_pin(dac_pin){
+      inputs = new_inputs;
         DigitalSelector digital_selector(dac_pin);
         AnalogSelector analog_selector;
     };
@@ -30,8 +31,20 @@ namespace arduino{
       analog_selector.select(get_active_input()->analog_input);
     };
     Input * Selector::get_active_input(){
-      return & inputs[active_input];
+      return &inputs[active_input];
     };
+    String Selector::get_name(){
+      return get_active_input()->name;
+    }
+    uint8_t Selector::get_analog(){
+      return get_active_input()->analog_input;
+    }
+    uint8_t Selector::get_digital(){
+      return get_active_input()->digital_input;
+    }
+    uint8_t Selector::get_number(){
+      return active_input + 1;
+    }
   }
 }
 

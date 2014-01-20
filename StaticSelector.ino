@@ -42,11 +42,11 @@ int buttonState = 0;
 // DAC is connected to the 1st analog input(0)
 using namespace arduino::libraries;
 Input pre_inputs [] = {
-  Input(2, NULL, "AUX"),
-  Input(3, NULL, "PHONO"),
-  Input(7, 0, "USB"),
-  Input(7, 1, "Raspberry Pi"),
-  Input(7, 6, "CD Player"),
+  Input(0, NULL, "AUX"),
+  Input(1, NULL, "PHONO"),
+  Input(2, 0, "USB"),
+  Input(3, 1, "Raspberry Pi"),
+  Input(6, 6, "CD Player"),
   Input(7, 6, "TV"),
 };
 Selector input_selector(pre_inputs, 0, 0, 3);
@@ -72,21 +72,23 @@ void loop() {
   lcd.print(millis()/1000);
 
   lcd.setCursor(0, 2);
-  lcd.print(input_selector.active_input);
+  lcd.print(input_selector.get_number());
+  lcd.setCursor(1, 2);
+  lcd.print(".");
+  lcd.setCursor(2, 2);
+  lcd.print(input_selector.get_name());
 
+  lcd.setCursor(0, 3);
+  lcd.print(input_selector.get_analog());
+  lcd.setCursor(2, 3);
+  lcd.print(input_selector.get_digital());
   buttonState = digitalRead(buttonPin);
 
   // check if the pushbutton is pressed.
   // if it is, the buttonState is HIGH:
   if (buttonState == HIGH) {
-    int next_input = input_selector.active_input + 1;
-    if(next_input == 4){
-      next_input = 0;
-    }
-    input_selector.select_input(next_input);
+    input_selector.select_next_input();
     delay(500);
   }
-  lcd.setCursor(0, 3);
-  int number = input_selector.active_input;;
 }
 

@@ -25,10 +25,14 @@ namespace arduino{
         void select_input(uint8_t input_number);
         void select_output(uint8_t output_number);
         void mute();
+        String get_name();
+        uint8_t get_number();
         Input * get_active_input();
         uint8_t active_input;
+        uint8_t get_analog();
+        uint8_t get_digital();
       private:
-        Input inputs[];
+        Input * inputs;
         uint8_t dac_enable_pin;
         uint8_t active_output;
         AnalogSelector analog_selector;
